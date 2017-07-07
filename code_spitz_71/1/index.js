@@ -68,8 +68,8 @@ const Table =(_=>{
 
 
 
-// const table = new Table("#data");
-// table.load("71_1.json");
+const table = new Table("#data");
+table.load("71_1.json");
 
 // DATA LOAD와 RENDERING분리하기
 // 데이터 공급자와 렌더링이 협력하는 관계
@@ -91,8 +91,11 @@ const Info = class{
                 throw "invalid items: " + idx;
             }
         });
-        this._private//추가해야함...
+        this._private = {title, header, items};
     }
+    get title(){return this._private.title;}
+    get header(){return this._private.header;}
+    get items(){return this._private.items;}
 }
 
 const Data = class{
@@ -137,7 +140,26 @@ const TableRenderer = class extends Renderer{
         this._render();
     }
     _render(){
-
+        const parent = document.querySelector(this._parent);
+        if(!parent) throw "invalid parent";
+        parent.innerHTML = "";
+        const [table, caption] = "table,caption".split(",").map((v=>document.createElement(v)));
+        caption.innerHTML = this._info.title;
+        table.appendChild(caption);
+        table.appendChild(
+            this._info.header.reduce(
+                (thead, data)=>(thead.appendChild(document.createElement("th")).innerHTML = data, thead),
+                document.createElement("thead"))
+        );
+        parent.appendChild(
+            this._info.items.reduce(
+                (table, row)=>(table.appendChild(
+                    row.reduce(
+                        (tr, data)=>(tr.appendChild(document.createElement("td")).innerHTML = data, tr),
+                        document.createElement("tr"))
+                ), table),
+            table)
+        );
     }
 }
 
