@@ -1,0 +1,78 @@
+<html>
+<head>
+</head>
+<body>
+<script>
+// 항상 사용하는 쪽을 먼저 만드는 것이 유리하다. 아니면 필요없는 기능을 만들게 된다!
+const Task = class {
+    constructor(title) {
+        this._title = title;
+        this._date = Date.now();
+        this._isComplete = false;
+    }
+    isComplete() {
+        return this._isComplete;
+    }
+    toggle() {
+        this._isComplete = !this._isComplete; // 이름답게 if 쓰지말고 그냥 변환.
+    }
+    sortTitle(task) {
+        return this._title > task._title;
+    }
+    sortDate(task) {
+        return this._date > task._date;
+    }
+}
+const TaskSort = {  // static한 라우팅 지식만 알고 있음.
+    title: (taskA, taskB) => taskA.sortTitle(taskB), // 캡슐화, 사용만 할 수 있게 해야한다.
+    date: (taskA, taskB) => taskA.sortDate(taskB),
+    register: null // Task 객체에 권한이 없음. TaskList가 알고 있는 지식임.
+};
+const TaskList = class {
+    constructor(title) {
+        this._title = title;
+        this._list = [];
+    }
+    add(title) {
+        this._list.push(new Task(title));
+    }
+    remove(task) { // 대칭성을 위해 먼저 만들어 준다.
+        const l = this._list; // 코드 중복을 없애줌.
+        if(l.includes(task)) l.splice(l.indexOf(task), 1); // 중문이 온다는 건 두줄 이상의 코드가 온다는 것. 섬세하게 표현하는 법을 알 것.
+    }
+    _getList(sort, state) { // 내부함수는 validation하지 않는다.
+        const l = this._list;
+        const s = TaskSort[sort]; // 전략패턴: 라우터, 인자를 덮어쓰지 않는다.
+
+        let result = [];
+
+        // if(state) result = [l.filter(v => !v.isComplete()), l.filter(v => v.isComplete())]
+        //     .reduce((p,c) => p.concat(c.sort(s)), []); // 뭔지 모르지만 미완료 그룹, 완료 그룹을 하나로 합칠거야!
+        // else result = [...l].sort(s);
+        // 밑의 코드로 의도를 표현하는게 맞음.
+
+        result = state ?  [l.filter(v => !v.isComplete()), l.filter(v => v.isComplete())]
+            .reduce((p,c) => p.concat(c.sort(s)), []) : result = [...l].sort(s);
+
+        return result; // 짜주세욤
+    }
+    byResgister(state = false) { // 외부에서 validation해서 넘긴다.
+        return this._getList('register', state);
+    }
+    byTitle(state = false) {
+        return this._getList('title', state);
+    }
+    byDate(state = false) {
+        return this._getList('date', state);
+    }
+}
+const list = new TaskList('list1');
+
+list.add('task1');
+list.add('task3');
+list.add('task2');
+console.log(list.byResgister());
+console.log(list.byTitle());
+</script>
+</body>
+</html>
