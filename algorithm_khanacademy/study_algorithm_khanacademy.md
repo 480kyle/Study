@@ -1,3 +1,5 @@
+# [칸 아카데미 알고리즘](https://ko.khanacademy.org/computing/computer-science/algorithms) 셀프 스터디
+
 ### Binary Search
 
 바이너리 서치는 정렬된 리스트에서 원하는 아이템을 찾는 효율적인 알고리즘이다.
