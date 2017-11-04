@@ -1,4 +1,9 @@
 # [칸 아카데미 알고리즘](https://ko.khanacademy.org/computing/computer-science/algorithms) 셀프 스터디
+---
+
+### Linear Search
+처음부터 하나하나씩 찾는 방법이다.
+정확하지만 비효율적.
 
 ### Binary Search
 
@@ -37,3 +42,112 @@ Pseudocode로 표현하면 다음과 같다.
 5. 숫자가 크다면 max에 숫자를 대입한다.
 6. 2번으로 돌아간다.
 더 자세하게 만들수도 있지만 여기까지.
+
+이것을 자바스크립트 코드로 표현하면 이렇다.
+
+```javascript
+/* Returns either the index of the location in the array,
+  or -1 if the array did not contain the targetValue */
+var doSearch = function(array, targetValue) {
+	var min = 0;
+	var max = array.length - 1;
+    var guess;
+    
+    while(max >= min){
+        guess = Math.floor((max + min) / 2);
+        if( array[guess] === targetValue) {return guess;}
+        else if(array[guess] < targetValue){ min = guess + 1;}
+        else{max = guess - 1;}
+    }
+    return -1;
+};
+
+var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 
+		41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97];
+
+var result = doSearch(primes, 73);
+println("Found prime at index " + result);
+
+Program.assertEqual(doSearch(primes, 73), 20);
+```
+
+횟수를 확인하고 여러 케이스를 확인 하기 위해 코드를 추가해 완성된 코드를 보면 다음과 같다.
+
+```javascript
+/* Returns either the index of the location in the array,
+  or -1 if the array did not contain the targetValue */
+var doSearch = function(array, targetValue) {
+	var min = 0;
+	var max = array.length - 1;
+    var guess;
+    var count = 0;
+    
+    while(max >= min){
+        count++;
+        guess = Math.floor((max + min) / 2);
+        println("guess: " + guess);
+        if( array[guess] === targetValue) {
+            println("count: " + count);
+            return guess;
+        }
+        else if(array[guess] < targetValue){ min = guess + 1;}
+        else{max = guess - 1;}
+    }
+    return -1;
+};
+
+var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 
+		41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97];
+
+var result = doSearch(primes, 73);
+println("Found prime at index " + result);
+var result = doSearch(primes, 11);
+println("Found prime at index " + result);
+var result = doSearch(primes, 83);
+println("Found prime at index " + result);
+
+Program.assertEqual(doSearch(primes, 73), 20);
+Program.assertEqual(doSearch(primes, 11), 4);
+Program.assertEqual(doSearch(primes, 83), 22);
+```
+
+### 이진검색 실행시간
+n개의 요소가 있는 배열에서 선형 탐색으로 탐색을 하면 최대 n번의 탐색.
+배열의 길이가 증가할수록 이진 탐색이 훨씬 빠르게 탐색 가능.
+2를 밑으로 하는 n의 로그: lg n
+
+log2(1580000)=log(1580000)/log(2)
+
+### 점근적 표기법
+중요하지 않은 항과 상수 계수를 제거하고 중요한 부분에 집중.
+big-Θ, big-O, big-Ω 세 가지가 있다.
+
+### big-Θ 표기법
+선형 검색의 간단한 예
+
+```javascript
+var doLinearSearch = function(array) {
+  for (var guess = 0; guess < array.length; guess++) {
+    if (array[guess] === targetValue) { 
+        return guess;  // 찾은 경우
+    }
+  }
+  return -1;  // 찾지 못한 경우
+};
+```
+여기서 상수 인자를 안다고 해서 실행시간을 알수는 없다.
+배열의 크기에 따라 실행시간이 결정된다.
+배열의 크기를 n이라 하면 Θ(n)으로 표기한다.
+
+n의 작은 값에 대해서는 k1*n, k2*n의 실행시간을 어떻게 비교하는지 고려하지않음.
+n이 충분히 커지면 실행시간은 반드시 그 사이에 존재.
+()[./theta_n.png]
+
+n^2이나 log n에 대해서도 나타낼 수 있다.
+()[./theta_fn.png]
+
+낮은 차수나 시간단위는 고려할 필요가 없다.
+
+big-Θ표기법은 실행 시간에 대해 점근적으로 근접한 한계값이 있다고 표현하는 것.
+
+### 점근적 표기법 형태의 함수
