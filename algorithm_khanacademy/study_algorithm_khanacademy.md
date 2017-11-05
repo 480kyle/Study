@@ -141,13 +141,27 @@ var doLinearSearch = function(array) {
 
 n의 작은 값에 대해서는 k1*n, k2*n의 실행시간을 어떻게 비교하는지 고려하지않음.
 n이 충분히 커지면 실행시간은 반드시 그 사이에 존재.
+
 ![](./theta_n.png)
 
 n^2이나 log n에 대해서도 나타낼 수 있다.
+
 ![](./theta_fn.png)
 
 낮은 차수나 시간단위는 고려할 필요가 없다.
 
 big-Θ표기법은 실행 시간에 대해 점근적으로 근접한 한계값이 있다고 표현하는 것.
 
-### 점근적 표기법 형태의 함수
+### 점근적 표기법(Asymptotic notation) 형태의 함수
+
+from the slowest to the fastest
+
+1. Θ(1)
+2. Θ(lg n)
+3. Θ(n)
+4. Θ(n log n)
+5. Θ(n^2)
+6. Θ(n^2 lg n)
+7. Θ(n^3)
+8. Θ(2^n)
+
