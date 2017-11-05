@@ -154,7 +154,7 @@ big-Θ표기법은 실행 시간에 대해 점근적으로 근접한 한계값�
 
 ### 점근적 표기법(Asymptotic notation) 형태의 함수
 
-from the slowest to the fastest
+커지는 속도가 느린 것부터 빠른 순으로 정렬
 
 1. Θ(1)
 2. Θ(lg n)
