@@ -141,10 +141,10 @@ var doLinearSearch = function(array) {
 
 n의 작은 값에 대해서는 k1*n, k2*n의 실행시간을 어떻게 비교하는지 고려하지않음.
 n이 충분히 커지면 실행시간은 반드시 그 사이에 존재.
-()[./theta_n.png]
+!()[./theta_n.png]
 
 n^2이나 log n에 대해서도 나타낼 수 있다.
-()[./theta_fn.png]
+!()[./theta_fn.png]
 
 낮은 차수나 시간단위는 고려할 필요가 없다.
 
